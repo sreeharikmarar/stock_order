@@ -1,6 +1,5 @@
 require 'rubygems'
 require 'active_record'
-#require 'mechanize'
 require 'nokogiri'
 require 'active_record'
 require 'mysql2'
@@ -10,7 +9,7 @@ ActiveRecord::Base.establish_connection ({
   :adapter => "mysql2",
   :host => "localhost",
   :username => "root",
-  :password => "prescience",
+  :password => "password",
   :database => "test"})
 
 
