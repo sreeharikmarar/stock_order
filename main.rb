@@ -1,7 +1,9 @@
 require 'rubygems'
 require 'active_record'
 require 'mysql2'
-
+require 'highline/import'
+require_relative "stock_order"
+require_relative "create_stock"
 
 ActiveRecord::Base.establish_connection ({
   :adapter => "mysql2",
@@ -11,34 +13,33 @@ ActiveRecord::Base.establish_connection ({
   :database => "test"})
 
 
-
-
-class User < ActiveRecord::Base
-      attr_accessor :name , :email
-    
-
-end
-
-
-class Stock
- 
+class Main
   def initialize
-    
-    @prompt = ["name","email"]
-    @user = User.new
-    
+	choose do |menu|
+      		menu.prompt = "Please select Type 'Buy' or 'Sell' to place order OR 'Quit' to exit"
+      		menu.choice(:Buy) { make_order("buy") }
+      		menu.choice(:Sell) { make_order("sell") }
+      		menu.choice(:Quit, "Exit program.") { exit }
+    	end
   end
-  def inputs
-     u = User.new
-     @prompt.each do |s|
-       puts "Enter your : #{s}"
-       @user["#{s}"] = gets.chomp
-     end
-    @user.save 
+
+  private
+
+  def make_order(type)
+        order = {}
+        case type
+	when "buy" then order["side"] = "buy"
+	when "sell" then order["side"] = "sell"
+	end
+  	order["company"]  = ask("Company?",String) { |c| c.validate = /[a-zA-Z0-9_]/ }
+	order["quantity"] = ask("Quantity?",Integer) { |q| q.in = 0..10000 }
+	CreateStock.new(order)
   end
 end
 
-s=Stock.new
-s.inputs
+
+
+Main.new
+
 
 
