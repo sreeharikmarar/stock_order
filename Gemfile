@@ -1,8 +1,5 @@
 source 'https://rubygems.org'
 
-gem 'rake'
-gem 'activerecord'
-gem 'mechanize'
-gem 'nokogiri'
+gem 'activerecord', '~> 3.2.0'
 gem 'mysql2'
-gem 'standalone_migrations'
+gem 'standalone_migrations', '~> 2.1.4'

@@ -1,7 +1,5 @@
 require 'rubygems'
 require 'active_record'
-require 'nokogiri'
-require 'active_record'
 require 'mysql2'
 
 
