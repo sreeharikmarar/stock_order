@@ -9,7 +9,7 @@ ActiveRecord::Base.establish_connection ({
   :host => "localhost",
   :username => "root",
   :password => "password",
-  :database => "stock"})
+  :database => "stock_db"})
 
 begin
   TakeOrder.new
