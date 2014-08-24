@@ -2,7 +2,7 @@ stock_order
 ===========
 
 
-==Steps 
+Steps 
 
 1. Bundle install
 
