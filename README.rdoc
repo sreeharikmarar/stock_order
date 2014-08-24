@@ -4,7 +4,7 @@ stock_order
 
 Steps 
 
-1. Bundle install
+1. bundle install
 
 2. Edit db/config.yml to configure your mysql user_name and password
 
