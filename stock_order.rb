@@ -16,7 +16,7 @@ class StockOrder < ActiveRecord::Base
 					@current_order.close!
 				end		
 			else
-				rem_quantity = @current_order.quantity + @prev_order.rem_quantity
+				rem_quantity = (@current_order.quantity + @prev_order.rem_quantity)
 				@current_order.open!(rem_quantity)
 			   	@prev_order.close!
 			end

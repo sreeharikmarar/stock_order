@@ -18,8 +18,8 @@ class Order
   	StockOrder.execute_order(self)
 
 		choose do |menu|
-		    say("="*60)
-     		menu.prompt = "Please select 1.Continue for Next order | 2. Display Order Status | 3. Quit"
+		    say("="*75)
+     		menu.prompt = "Please select 1.Continue for Next order | 2. Display all Order Status | 3. Quit"
      		menu.choice(:Continue, "Continue Next Order") { TakeOrder.new }
      		menu.choice(:Display, "Display All Order Status") { DisplayOrders.new }
      		menu.choice(:Quit, "Exit program.") { exit }
