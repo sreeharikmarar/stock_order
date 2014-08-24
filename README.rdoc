@@ -3,8 +3,13 @@ stock_order
 
 
 ==Steps 
-bundle install
-Edit db/config.yml to configure your mysql user_name and password
-rake db:create -t
-rake db:migrate -t
-ruby main.rb 
+
+1. Bundle install
+
+2. Edit db/config.yml to configure your mysql user_name and password
+
+3. rake db:create -t
+
+4. rake db:migrate -t
+
+5. ruby main.rb 
