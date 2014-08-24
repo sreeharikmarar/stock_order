@@ -15,15 +15,15 @@ class Order
 
   def execute
   		
-  		StockOrder.execute_order(self)
+  	StockOrder.execute_order(self)
 
-		  choose do |menu|
-			    say("="*60)
-      		menu.prompt = "Please select 1.Continue for Next order | 2. Display Order Status | 3. Quit"
-      		menu.choice(:Continue, "Continue Next Order") { TakeOrder.new }
-      		menu.choice(:Display, "Display All Order Status") { DisplayOrders.new }
-      		menu.choice(:Quit, "Exit program.") { exit }
-    	end
+		choose do |menu|
+		    say("="*60)
+     		menu.prompt = "Please select 1.Continue for Next order | 2. Display Order Status | 3. Quit"
+     		menu.choice(:Continue, "Continue Next Order") { TakeOrder.new }
+     		menu.choice(:Display, "Display All Order Status") { DisplayOrders.new }
+     		menu.choice(:Quit, "Exit program.") { exit }
+    end
 
   end
 
