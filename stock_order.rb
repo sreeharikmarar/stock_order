@@ -1,37 +1,33 @@
 #require 'active_record'
 class StockOrder < ActiveRecord::Base
       
+
 	def self.execute_order(current_order)
 		@current_order = current_order
-		@prev_order = StockOrder.where("company = '#{@current_order['company']}' and status = 'open'").last
+		@prev_order = StockOrder.where("company = '#{@current_order.company}' and status = 'open'").last
 		if @prev_order 
 			if eligible_for_sale?
-				if @prev_order.rem_quantity < @current_order['quantity']
-					rem_quantity = (@current_order['quantity'] - @prev_order.rem_quantity)
-					@current_order.merge!({"rem_quantity" => rem_quantity, :status => 'open'})
-					StockOrder.create(@current_order)
+				if @prev_order.rem_quantity < @current_order.quantity
+					rem_quantity = (@current_order.quantity - @prev_order.rem_quantity)
+					@current_order.open!(rem_quantity)
 					@prev_order.close!
 				else
-					@prev_order.open!(@current_order["quantity"])
-					@current_order.merge!({"rem_quantity" => 0, :status => 'closed'})
-					StockOrder.create(@current_order)
+					@prev_order.open!(@current_order.quantity)
+					@current_order.close!
 				end		
 			else
-				rem_quantity = @current_order['quantity'] + @prev_order.rem_quantity
-				@current_order.merge!({"rem_quantity" => rem_quantity, :status => 'open'})
-				StockOrder.create(@current_order)
+				rem_quantity = @current_order.quantity + @prev_order.rem_quantity
+				@current_order.open!(rem_quantity)
 			   	@prev_order.close!
 			end
 		else
-			@current_order.merge!({"rem_quantity" => @current_order['quantity'],"status" => "open"})
-			StockOrder.create(@current_order)
+			@current_order.open!(@current_order.quantity )
 		end
-        end
+    end
 
 	def self.eligible_for_sale?
-		(@prev_order.buy? && @current_order['side'] == 'sell') || (@prev_order.sell? && @current_order['side'] == 'buy')
+		(@prev_order.buy? && @current_order.sell?) || (@prev_order.sell? && @current_order.buy?)
 	end
-
 
 	def buy?
 		side == 'buy'
@@ -49,8 +45,7 @@ class StockOrder < ActiveRecord::Base
 		status == 'closed'
 	end
 
-	def open!(current_quantity)
-		
+	def open!(current_quantity)	
 		self.rem_quantity = (self.rem_quantity - current_quantity )
 		self.status = 'open'
 		self.save!

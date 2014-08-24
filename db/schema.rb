@@ -21,9 +21,4 @@ ActiveRecord::Schema.define(:version => 20140823075101) do
     t.string  "status"
   end
 
-  create_table "users", :force => true do |t|
-    t.string "name"
-    t.string "email"
-  end
-
 end
