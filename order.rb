@@ -71,7 +71,7 @@ class Order
       StockOrder.create(order)
   end
 
-  def update_quantity!(quantity)
+  def update_rem_quantity!(quantity)
     order["rem_quantity"] = quantity
     self
   end

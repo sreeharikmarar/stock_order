@@ -10,7 +10,7 @@ class StockOrder < ActiveRecord::Base
 				if @prev_order.rem_quantity < @current_order.rem_quantity
 					rem_quantity = (@current_order.rem_quantity - @prev_order.rem_quantity)
 					@prev_order.close!
-					@current_order.update_quantity!(rem_quantity)
+					@current_order.update_rem_quantity!(rem_quantity)
 					execute_order(@current_order)
 				elsif @prev_order.rem_quantity > @current_order.rem_quantity
 					rem_quantity = (@prev_order.rem_quantity - @current_order.rem_quantity)
@@ -50,7 +50,6 @@ class StockOrder < ActiveRecord::Base
 
 	def open!(current_quantity)	
 		self.rem_quantity = (self.rem_quantity - current_quantity )
-		puts "rem_quantity : #{self.rem_quantity}"
 		self.status = 'open'
 		self.save!
 	end
