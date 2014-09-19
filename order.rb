@@ -43,10 +43,6 @@ class Order
       order["status"]
   end
   
-  def self.side
-  		order["side"]
-  end
-
   def company
   		order["company"]
   end
