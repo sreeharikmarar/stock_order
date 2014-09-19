@@ -4,27 +4,27 @@ class StockOrder < ActiveRecord::Base
 
 	def self.execute_order(current_order)
 		@current_order = current_order
-		@prev_order = StockOrder.where("company = '#{@current_order.company}' and status = 'open'").last
+		@prev_order = StockOrder.where("company = '#{@current_order.company}' and status = 'open'").first
 		if @prev_order 
 			if eligible_for_sale?
-				if @prev_order.rem_quantity < @current_order.quantity
-					rem_quantity = (@current_order.quantity - @prev_order.rem_quantity)
-					@current_order.open!(rem_quantity)
+				if @prev_order.rem_quantity < @current_order.rem_quantity
+					rem_quantity = (@current_order.rem_quantity - @prev_order.rem_quantity)
 					@prev_order.close!
-				elsif @prev_order.rem_quantity > @current_order.quantity
-					@prev_order.open!(@current_order.quantity)
+					@current_order.update_quantity!(rem_quantity)
+					execute_order(@current_order)
+				elsif @prev_order.rem_quantity > @current_order.rem_quantity
+					rem_quantity = (@prev_order.rem_quantity - @current_order.rem_quantity)
+					@prev_order.open!(@current_order.rem_quantity)
 					@current_order.close!
 				else
 					@prev_order.close!
 					@current_order.close!
 				end		
 			else
-				rem_quantity = (@current_order.quantity + @prev_order.rem_quantity)
-				@current_order.open!(rem_quantity)
-			   	@prev_order.close!
+				@current_order.open!(@current_order.rem_quantity)
 			end
 		else
-			@current_order.open!(@current_order.quantity )
+			@current_order.open!(@current_order.rem_quantity )
 		end
     end
 
@@ -50,6 +50,7 @@ class StockOrder < ActiveRecord::Base
 
 	def open!(current_quantity)	
 		self.rem_quantity = (self.rem_quantity - current_quantity )
+		puts "rem_quantity : #{self.rem_quantity}"
 		self.status = 'open'
 		self.save!
 	end

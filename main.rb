@@ -8,11 +8,11 @@ ActiveRecord::Base.establish_connection ({
   :adapter => "mysql2",
   :host => "localhost",
   :username => "root",
-  :password => "password",
+  :password => "prescience",
   :database => "stock_db"})
 
-begin
+# begin
   TakeOrder.new
-rescue => ex
-  puts "Some Exception has occured in #{ex.class} : #{ex.message}"
-end
+# rescue => ex
+  # puts "Some Exception has occured in #{ex.class} : #{ex.message}"
+# end

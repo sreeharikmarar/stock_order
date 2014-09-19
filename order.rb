@@ -9,7 +9,7 @@ class Order
 		@order = Hash.new
 		@order["side"] = type
     @order["company"]  = ask("Company?",String) { |c| c.validate = /[a-zA-Z0-9_]/ }
-		@order["quantity"] = ask("Quantity?",Integer) { |q| q.in = 0..100000 }
+		@order["rem_quantity"] = @order["quantity"] = ask("Quantity?",Integer) { |q| q.in = 0..100000 }
 
   end
 
@@ -69,6 +69,11 @@ class Order
       order["rem_quantity"] = 0
       order["status"] = "closed"
       StockOrder.create(order)
+  end
+
+  def update_quantity!(quantity)
+    order["rem_quantity"] = quantity
+    self
   end
 
 end
